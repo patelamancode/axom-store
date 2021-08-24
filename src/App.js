@@ -5,6 +5,7 @@ import Product from "./components/products/Product";
 import Cart from "./components/cart/Cart.jsx";
 import Wishlist from "./components/wishlist/Wishlist";
 import Home from "./components/homepage/Home";
+import Login from "./components/login/Login";
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           < Wishlist />
         </Route>
         <Route path="/signIn">
-          <h1>Please logIn or Sign In</h1>
+          < Login />
         </Route>
         <Route path="/product">
           < Navbar />

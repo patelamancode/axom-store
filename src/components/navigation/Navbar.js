@@ -6,6 +6,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import AddShoppingCartSharpIcon from '@material-ui/icons/AddShoppingCartSharp';
 import FavoriteSharpIcon from '@material-ui/icons/FavoriteSharp';
 import AccountCircleSharpIcon from '@material-ui/icons/AccountCircleSharp';
+import { Badge } from '@material-ui/core';
 
 
 function Navbar(){
@@ -26,12 +27,16 @@ function Navbar(){
           <span className="product_item header_item_headingTwo">Products</span>
         </Link>
         <Link to ="/cart" className="header_item_link">
-              <AddShoppingCartSharpIcon className="header_item_icon"/>
+          <Badge badgeContent={4} color="secondary">  
+            <AddShoppingCartSharpIcon className="header_item_icon"/>
+          </Badge>    
         </Link>
         <Link to ="/wishlist" className="header_item_link">
-              <FavoriteSharpIcon className="header_item_icon"/>
+          <Badge badgeContent={2} color="secondary"> 
+            <FavoriteSharpIcon className="header_item_icon"/>
+          </Badge>  
         </Link>
-        <Link to="signIn">
+        <Link to="signIn" style={{textDecoration:"none"}}>
           <div className="header_item">
             <div className="header_item_heading">
               <span className="header_item_headingOne">Hello,</span>

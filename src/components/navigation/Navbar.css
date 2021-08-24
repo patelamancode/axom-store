@@ -43,6 +43,7 @@
 .header_item_link{
     margin-right: 2rem;
     margin-top: 1rem;
+    text-decoration: none;
 }
 .header_item_icon{
     color: white;
