@@ -7,30 +7,30 @@ import { auth } from '../../firebase';
 
 function Login() {
     
-  const [email , setEmail] = useState('');
-  const [password , setPassword] = useState('');
+//   const [email , setEmail] = useState('');
+//   const [password , setPassword] = useState('');
 
 
-    const handleLogin = async(event,email,password) =>{  
-        event.preventDefault();
-        try{
-            await auth.signInWithEmailAndPassword(email , password)
-        }catch(err) {
-            console.log("errorrrrrr")
-            alert("oops please enter valid credentials")
-        } 
-    }
+//     const handleLogin = async(event,email,password) =>{  
+//         event.preventDefault();
+//         try{
+//             await auth.signInWithEmailAndPassword(email , password)
+//         }catch(err) {
+//             console.log("errorrrrrr")
+//             alert("oops please enter valid credentials")
+//         } 
+//     }
 
-    const handleRegister = (event) =>{
-        event.preventDefault();
-        auth.createUserWithEmailAndPassword(email , password)
-        .then((auth)=>{
+//     const handleRegister = (event) =>{
+//         event.preventDefault();
+//         auth.createUserWithEmailAndPassword(email , password)
+//         .then((auth)=>{
             
-        })
-        .catch((e => alert("oops please enter valid credentials")))
+//         })
+//         .catch((e => alert("oops please enter valid credentials")))
 
-    }
-    console.log(setEmail)
+//     }
+//     console.log(setEmail)
     return (
         <div className="login">
             <Link to="/">
@@ -45,23 +45,19 @@ function Login() {
                     <h4>Email</h4>
                     <input 
                     type="email"
-                    value={ email }
-                    onChange={event => setEmail(event.target.value)}
                     placeholder="abc@gmail.com"
                     />
                     <h4>Password</h4>
                     <input 
                     type="password"
-                    value={ password }
-                    onChange={event => setPassword(event.target.value)}
                     placeholder="abc123"
                     />
-                    {/* <i class="fas fa-eye"></i> */}
-                    <button onClick={ handleLogin } className="signIn_btn">Sign In</button>
+                    <button  className="signIn_btn">Sign In</button>
                 </form>
                 <p>After signing-in you must agree to our store conditions,
                  and feel free to share your basic information along with us.</p>
-                <button onClick={ handleRegister } className="register_btn">Create a new account</button>
+                {/* <button onClick={ handleRegister } className="register_btn">Create a new account</button> */}
+                <h5>already having account ?<span> Sign Up</span></h5>
             </div>
         </div>
     )

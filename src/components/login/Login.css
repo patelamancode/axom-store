@@ -50,3 +50,12 @@
     border-radius: 5px;
     border: 1px solid;
 }
+h5{
+    display: flex;
+    margin-left: 50px;
+}
+h5 > span{
+    color: rgba(74, 74, 230, 0.815);
+    font-size: medium;
+    margin-left: 4px;
+}
