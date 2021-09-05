@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React , { useState ,useEffect } from 'react';
 import "./Login.css"
 import { Link } from 'react-router-dom';
 import header_Img1 from '../../assets/header_icon.png';
@@ -7,30 +7,79 @@ import { auth } from '../../firebase';
 
 function Login() {
     
-//   const [email , setEmail] = useState('');
-//   const [password , setPassword] = useState('');
+    const [user, setUser] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [hasAccount, setHasAccount] = useState(false);
+   
+    const clearInputs = () =>{
+     setEmail('');
+     setPassword('');
+    }
+   
+    const clearErrors = () =>{
+      setEmailError('');
+      setPasswordError('');
+    };
+   
+    const handleLogin = async(event) =>{  
+       event.preventDefault();
+       clearErrors();
+       try{
+         await auth.signInWithEmailAndPassword(email , password)
+       }catch(err){
+         switch (err.code) {
+           case "auth/invalid-email":
+           case "auth/user-disabled":
+           case "auth/user-not-found":
+             setEmailError(err.message)
+             break;
+           case "auth/wrong-password":
+             setPasswordError(err.message)
+             break;
+         }
+       };
+     }
+   
+     const handleSignup = async(event) =>{
+       event.preventDefault();
+       clearInputs();
+       try{
+         await auth.createUserWithEmailAndPassword(email , password)
+       }catch(err){
+         switch (err.code) {
+           case "auth/email-already-in-use":
+           case "auth/invalid-email":
+             setEmailError(err.message)
+             break;
+           case "auth/weak-password":
+             setPasswordError(err.message)
+             break;
+         }
+       }
+     }
+   
+     const handleSignout = () =>{
+       auth.signOut();
+     };
+   
+     const authListner = () =>{
+       auth.onAuthStateChanged((user)=>{
+         if(user){
+           clearInputs();
+           setUser(user);
+         }else{
+           setUser("")
+         }
+       });
+     };
+   
+     useEffect(()=>{
+       authListner();
+     },[])
 
-
-//     const handleLogin = async(event,email,password) =>{  
-//         event.preventDefault();
-//         try{
-//             await auth.signInWithEmailAndPassword(email , password)
-//         }catch(err) {
-//             console.log("errorrrrrr")
-//             alert("oops please enter valid credentials")
-//         } 
-//     }
-
-//     const handleRegister = (event) =>{
-//         event.preventDefault();
-//         auth.createUserWithEmailAndPassword(email , password)
-//         .then((auth)=>{
-            
-//         })
-//         .catch((e => alert("oops please enter valid credentials")))
-
-//     }
-//     console.log(setEmail)
     return (
         <div className="login">
             <Link to="/">
@@ -45,19 +94,38 @@ function Login() {
                     <h4>Email</h4>
                     <input 
                     type="email"
+                    autoFocus
+                    required
+                    value={ email }
                     placeholder="abc@gmail.com"
+                    onChange={(e)=>setEmail(e.target.value)}
                     />
                     <h4>Password</h4>
                     <input 
                     type="password"
+                    required
+                    value={ password }
                     placeholder="abc123"
+                    onChange={(e)=>setPassword(e.target.value)}
                     />
-                    <button  className="signIn_btn">Sign In</button>
+                    <div>
+                        {hasAccount ? (
+                            <>
+                                <button className="signIn_btn"
+                                onClick={ handleLogin }
+                                >Sign in</button>
+                                <p>Don't have an account ? <span onClick={()=>setHasAccount(!hasAccount)}>Sign up</span></p>
+                            </>
+                        ) : (
+                            <>
+                                <button className="signIn_btn"
+                                onClick={ handleSignup }
+                                >Sign up</button>
+                                <p>Have an account ? <span onClick={()=>setHasAccount(!hasAccount)}>Sign in</span></p>
+                            </>
+                        )}
+                    </div>
                 </form>
-                <p>After signing-in you must agree to our store conditions,
-                 and feel free to share your basic information along with us.</p>
-                {/* <button onClick={ handleRegister } className="register_btn">Create a new account</button> */}
-                <h5>already having account ?<span> Sign Up</span></h5>
             </div>
         </div>
     )
